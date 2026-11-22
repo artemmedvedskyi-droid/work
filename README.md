@@ -1,4 +1,4 @@
-# Магазин відеоігор — ГЗ 1.2
+# Магазин відеоігор — ГЗ 1.1
 
 **Виконав:** курсант 231 навчальної групи, Медведський Артем Дмитрович.  
 **Номер за списком:** 20.
@@ -37,24 +37,19 @@ mvn spring-boot:run
 
  | Метод | URL | Результат |
 | --- | --- | --- |
-| GET | `/api/games` | усі картки, 200 |
-| GET | `/api/games/{id}` | деталі, 200 або 404 |
-| GET | `/api/games?genre=RPG` | фільтр (без урахування регістру), 200 |
-| POST | `/api/games` | створення, 201 (сервер надає ID) |
-| PUT | `/api/games/{id}` | повне оновлення, 200 або 404 |
-| DELETE | `/api/games/{id}` | видалення, 204 або 404 |
+| GET | `/api/games` | список карток, HTTP 200 |
+| GET | `/api/games/{id}` | деталі гри, HTTP 200 або 404 |
 
-**Вхідний DTO:** `VideoGameRequest` (без поля `id`), дані з `@RequestBody`, базова перевірка через Jakarta Validation; неправильні дані — HTTP 400.
+## Які файли важливі
 
-## Що додано порівняно з ГЗ 1.1
+- `domain/VideoGame.java` — модель гри (назва, студія, платформа, жанр, рік, віковий рейтинг, ціна, обкладинка та опис).
+- `repository/VideoGameRepository.java`, `InMemoryVideoGameRepository.java` — інтерфейс і сховище.
+- `config/GameSeeder.java` — п'ять ігор, що створюються під час старту.
+- `service/VideoGameService.java`, `VideoGameServiceImpl.java` — бізнес-логіка.
+- `service/mapper/VideoGameMapper.java` — перетворення в `VideoGameCardDto` і `VideoGameDetailDto`.
+- `web/VideoGameController.java` — 2 GET ендпоінти.
 
-- `repository`: `findByGenre(...)` і `deleteById(...)`.
-- `web/dto/VideoGameRequest.java` і `mapper.toDomain(...)`.
-- `service`: `create`, `update`, `delete` та фільтр жанру.
-- `web`: POST, PUT, DELETE й опціональний `@RequestParam`.
-- Тести на CRUD, 404, 400 та фільтрацію (MockMvc і unit tests).
-
-**Примітка:** дані змінюються тільки в пам'яті. Після рестарту стартові п'ять ігор повернуться. База даних і UI для цієї ГЗ не потрібні.
+**Наступна ГЗ 1.2:** та сама предметна область доповнюється створенням, оновленням, видаленням і фільтрацією за жанром. Це окремий проєкт `amazonua-gz12` із комплекту.
  ## Обмеження
 
 - Навчальні, вигадані записи; їхні посилання на обкладинки використовують зовнішній сервіс заглушок і не потрібні для REST-тестів.
